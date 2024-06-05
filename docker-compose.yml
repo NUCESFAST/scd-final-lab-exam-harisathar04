@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./client
+    ports:
+      - "1159:80"
+    networks:
+      - my-network
+
+  authentication:
+    build: ./backend/authentication
+    ports:
+      - "3360:3000"
+    networks:
+      - my-network
+
+  classrooms:
+    build: ./backend/classrooms
+    ports:
+      - "3361:3000"
+    networks:
+      - my-network
+
+  posts:
+    build: ./backend/posts
+    ports:
+      - "3362:3000"
+    networks:
+      - my-network
+
+  event-bus:
+    build: ./event-bus
+    ports:
+      - "3363:3000"
+    networks:
+      - my-network
+
+  database:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
