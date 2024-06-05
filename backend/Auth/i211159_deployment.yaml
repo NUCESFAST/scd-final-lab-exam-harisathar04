@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: i211159-auth-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend/auth
+  template:
+    metadata:
+      labels:
+        app: backend/auth
+    spec:
+      containers:
+      - name: backend/auth
+        image: harisathar04/auth:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: i211159-auth-service
+spec:
+  selector:
+    app: backend/auth
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer

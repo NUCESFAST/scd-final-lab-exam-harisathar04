@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: i211159-event-bus-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend/event-bus
+  template:
+    metadata:
+      labels:
+        app: backend/event-bus
+    spec:
+      containers:
+      - name: backend/event-bus
+        image: harisathar04/event-bus:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: i211159-event-bus-service
+spec:
+  selector:
+    app: backend/event-bus
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
